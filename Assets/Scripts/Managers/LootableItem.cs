@@ -5,6 +5,7 @@ using UnityEngine;
 public class LootableItem : NetworkBehaviour
 {
     private readonly HashSet<GameObject> alreadyTriggered = new();
+    private LootableItemState _state = LootableItemState.Available;
 
     [SerializeField]
     private Item _lootItem;
@@ -12,7 +13,49 @@ public class LootableItem : NetworkBehaviour
     [SerializeField]
     private int _lootQuantity = 1;
 
-    private LootableItemState _state = LootableItemState.Available;
+    public void Awake()
+    {
+        if (_lootItem == null)
+        {
+            Debug.LogError($"{gameObject.name}: LootItem is not assigned.");
+            return;
+        }
+
+        if (_lootQuantity <= 0)
+        {
+            Debug.LogError($"{gameObject.name}: LootQuantity must be greater than zero.");
+            _lootQuantity = 1;
+        }
+    }
+
+    public Item GetItem()
+    {
+        return _lootItem;
+    }
+
+    public int GetQuantity()
+    {
+        return _lootQuantity;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void OnLootConfirmed()
+    {
+        _state = LootableItemState.Looted;
+        _lootQuantity = 0;
+        Despawn(DespawnType.Destroy);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void OnLootCancelled(int remaining)
+    {
+        _state = LootableItemState.Available;
+
+        if (remaining == -1)
+            return;
+
+        _lootQuantity = remaining;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -31,12 +74,7 @@ public class LootableItem : NetworkBehaviour
             {
                 _state = LootableItemState.Pending;
 
-                playerInventory.TryPickupLoot(
-                    playerInventory.Owner,
-                    _lootItem.Id,
-                    _lootQuantity,
-                    ObjectId
-                );
+                playerInventory.TryPickupLoot(playerInventory.Owner, NetworkObject);
             }
         }
     }
@@ -47,20 +85,5 @@ public class LootableItem : NetworkBehaviour
             return;
 
         alreadyTriggered.Remove(other.gameObject);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void OnLootConfirmed()
-    {
-        _state = LootableItemState.Looted;
-        _lootQuantity = 0;
-        Despawn(DespawnType.Destroy);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void OnLootCancelled(int remaining)
-    {
-        _state = LootableItemState.Available;
-        _lootQuantity = remaining;
     }
 }

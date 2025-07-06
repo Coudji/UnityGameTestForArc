@@ -16,7 +16,6 @@
 
 .inventory-slot {
     background-color: rgb(240, 240, 240);
-    border: 1px solid rgb(204, 204, 204);
     display: flex;
     align-items: center;
     justify-content: center;

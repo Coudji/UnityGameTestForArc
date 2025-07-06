@@ -3448,7 +3448,7 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 3839093489979363539}
   _networkObjectCache: {fileID: 0}
-  characterPrefab: {fileID: 7922761668518538860, guid: 375142542c54a164e8cfa50873c32f05, type: 3}
+  characterPrefab: {fileID: 1643712288593156512, guid: 59b073c591cac334dbf5652462cce688, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
