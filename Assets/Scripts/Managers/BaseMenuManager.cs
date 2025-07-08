@@ -1,8 +1,9 @@
+using FishNet.Object;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-public abstract class BaseMenuManager : OwnerBehaviour
+public abstract class BaseMenuManager : NetworkBehaviour
 {
     [SerializeField]
     private MenuName _menuName;

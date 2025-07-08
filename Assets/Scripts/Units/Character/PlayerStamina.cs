@@ -2,7 +2,7 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
 
-public class PlayerStamina : OwnerBehaviour
+public class PlayerStamina : NetworkBehaviour
 {
     [SerializeField]
     public float maxStamina = 100f;
@@ -49,7 +49,7 @@ public class PlayerStamina : OwnerBehaviour
     }
 
     [ServerRpc]
-    public void SetRunningState(bool running)
+    public void ServerSetRunningState(bool running)
     {
         if (currentStamina.Value <= 0)
         {

@@ -1,31 +1,26 @@
-using UnityEngine;
-using UnityEngine.UIElements;
+using FishNet.Object;
 
-public class HUDController : MonoBehaviour
+public class HUDController : NetworkBehaviour
 {
-    public UIDocument HUDDocument;
-    private VisualElement _staminaBar;
-    private PlayerStamina _playerStamina;
+    private HUDManager _hud;
 
-    private void Awake()
+    public override void OnStartClient()
     {
-        _staminaBar = HUDDocument.rootVisualElement.Q<VisualElement>(UIElementNames.StaminaBar);
-        _playerStamina = GetComponent<PlayerStamina>();
+        base.OnStartClient();
 
-        if (_playerStamina != null)
-        {
-            _playerStamina.OnStaminaUpdated += UpdateStaminaBar;
-        }
+        if (!IsOwner)
+            return;
+
+        _hud = HUDManager.Instance;
+
+        _hud.Show();
+        _hud.UpdateHealthBar(1.0f);
+
+        // _health.OnHealthChanged += UpdateHealthHUD;
     }
 
-    private void UpdateStaminaBar(float stamina)
+    private void UpdateHealthHUD(int current, int max)
     {
-        if (_staminaBar != null)
-        {
-            float staminaPercentage = stamina / _playerStamina.maxStamina;
-            _staminaBar.style.width = new StyleLength(
-                new Length(staminaPercentage * 100, LengthUnit.Percent)
-            );
-        }
+        _hud.UpdateHealthBar(current / max);
     }
 }

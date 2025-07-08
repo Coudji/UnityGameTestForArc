@@ -1,10 +1,10 @@
 using FishNet.Object;
 using UnityEngine;
 
-public class Test1 : NetworkBehaviour
+public class Test1 : MonoBehaviour
 {
-    public override void OnStartClient()
+    private void Awake()
     {
-        Debug.Log("Je suis un client");
+        Debug.Log("Je suis lààààààààààààà");
     }
 }

@@ -2,7 +2,7 @@ using FishNet.Connection;
 using FishNet.Object;
 using UnityEngine;
 
-public class PlayerInventory : OwnerBehaviour
+public class PlayerInventory : NetworkBehaviour
 {
     [SerializeField]
     private InventoryConfig _config;
@@ -20,23 +20,23 @@ public class PlayerInventory : OwnerBehaviour
     {
         if (_inventory == null)
         {
-            ConfirmLootServerRpc(networkObject, -1);
+            ServerConfirmLoot(networkObject, -1);
             return;
         }
 
         if (networkObject.TryGetComponent<LootableItem>(out var lootable))
         {
             int remainingQuantity = _inventory.AddItem(lootable.GetItem(), lootable.GetQuantity());
-            ConfirmLootServerRpc(networkObject, remainingQuantity);
+            ServerConfirmLoot(networkObject, remainingQuantity);
         }
         else
         {
-            ConfirmLootServerRpc(networkObject, -1);
+            ServerConfirmLoot(networkObject, -1);
         }
     }
 
     [ServerRpc]
-    private void ConfirmLootServerRpc(NetworkObject networkObject, int remainingQuantity)
+    private void ServerConfirmLoot(NetworkObject networkObject, int remainingQuantity)
     {
         if (networkObject.TryGetComponent<LootableItem>(out var lootable))
         {

@@ -99,7 +99,7 @@ public class MainMenuManager : StaticInstance<MainMenuManager>
     public void OnClick_StartGame()
     {
         if (LobbyPlayer.LocalPlayer != null)
-            LobbyPlayer.LocalPlayer.RequestStartGameServerRpc();
+            LobbyPlayer.LocalPlayer.ServerRequestStartGame();
     }
 
     private void OnLobbySelected(LobbyInfo lobby)

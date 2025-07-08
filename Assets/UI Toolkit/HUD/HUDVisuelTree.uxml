@@ -1,15 +1,15 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/HUD/HUDStyle.uss?fileID=7433441132597879392&amp;guid=738d5ea692cd2b24d81f9e1bc7f74d3e&amp;type=3#HUDStyle" />
-    <ui:VisualElement name="HudContainer">
-        <ui:VisualElement name="BarContainer">
-            <ui:VisualElement name="HealthBarContainer">
-                <ui:VisualElement name="HealthBar" style="flex-grow: 1;" />
+    <ui:VisualElement name="HudContainer" class="hud-container">
+        <ui:VisualElement name="BarContainer" class="bar-container">
+            <ui:VisualElement name="HealthBarContainer" class="health-bar-container">
+                <ui:VisualElement name="HealthBar" class="health-bar" style="flex-grow: 1;" />
             </ui:VisualElement>
-            <ui:VisualElement name="ManaBarContainer">
-                <ui:VisualElement name="ManaBar" style="flex-grow: 1;" />
+            <ui:VisualElement name="ManaBarContainer" class="mana-bar-container">
+                <ui:VisualElement name="ManaBar" class="mana-bar" style="flex-grow: 1;" />
             </ui:VisualElement>
-            <ui:VisualElement name="StaminaBarContainer">
-                <ui:VisualElement name="StaminaBar" style="flex-grow: 1;" />
+            <ui:VisualElement name="StaminaBarContainer" class="stamina-bar-container">
+                <ui:VisualElement name="StaminaBar" class="stamina-bar" style="flex-grow: 1;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

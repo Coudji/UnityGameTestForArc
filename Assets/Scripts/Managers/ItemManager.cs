@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class ItemManager : Singleton<ItemManager>
 {
     public ItemDatabase ItemDatabase;

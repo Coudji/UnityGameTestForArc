@@ -13,7 +13,7 @@ public class LobbyPlayer : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void RequestStartGameServerRpc()
+    public void ServerRequestStartGame()
     {
         if (!IsServerInitialized)
             return;

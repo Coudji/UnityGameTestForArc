@@ -1,45 +1,45 @@
 :root {
     --bar-height: 20px;
-    --bar-container-color: #333;
+    --bar-container-color: rgb(51, 51, 51);
 }
 
-#HudContainer {
+.hud-container {
     padding: 50px;
 }
 
-#BarContainer {
+.bar-container {
     align-self: flex-start;
 }
 
-#BarContainer > * {
+.bar-container > * {
     margin-bottom: 10px;
     height: var(--bar-height);
     background-color: var(--bar-container-color);
 }
 
-#HealthBarContainer {
+.health-bar-container {
     width: 400px;
 }
 
-#ManaBarContainer {
+.mana-bar-container {
     width: 300px;
 }
 
-#StaminaBarContainer {
+.stamina-bar-container {
     width: 320px;
 }
 
-#HealthBar {
+.health-bar {
     width: 80%;
     background-color: red;
 }
 
-#ManaBar {
+.mana-bar {
     width: 20%;
     background-color: blue;
 }
 
-#StaminaBar {
+.stamina-bar {
     width: 40%;
     background-color: green;
 }

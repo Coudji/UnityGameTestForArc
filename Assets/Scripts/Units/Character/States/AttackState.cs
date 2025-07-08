@@ -2,27 +2,27 @@ using UnityEngine;
 
 public class AttackState : ICharacterState
 {
-    private readonly CharacterManager _character;
     private readonly CharacterStateManager _stateManager;
+    private readonly MovementController _movementController;
 
     public bool CanMove => false;
     public bool CanAttack => false;
 
-    public AttackState(CharacterManager character, CharacterStateManager stateManager)
+    public AttackState(MovementController movementController, CharacterStateManager stateManager)
     {
-        _character = character;
+        _movementController = movementController;
         _stateManager = stateManager;
     }
 
     public void Enter()
     {
-        _character.Controller.LockMovement();
+        _movementController.LockMovement();
     }
 
     public void Update() { }
 
     public void Exit()
     {
-        _character.Controller.UnlockMovement();
+        _movementController.UnlockMovement();
     }
 }

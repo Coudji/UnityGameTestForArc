@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ControllerManager : MonoBehaviour
+public class MovementController : MonoBehaviour
 {
     [Header("Player")]
     [Tooltip("Move speed of the character in m/s")]
@@ -137,12 +137,9 @@ public class ControllerManager : MonoBehaviour
 
     private void Update()
     {
-        if (_canMove)
-        {
-            JumpAndGravity();
-            GroundedCheck();
-            Move();
-        }
+        JumpAndGravity();
+        GroundedCheck();
+        Move();
     }
 
     private void LateUpdate()
@@ -210,7 +207,7 @@ public class ControllerManager : MonoBehaviour
 
         // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
         // if there is no input, set the target speed to 0
-        if (_input.move == Vector2.zero)
+        if (_input.move == Vector2.zero || !_canMove)
             targetSpeed = 0.0f;
 
         // a reference to the players current horizontal velocity
@@ -343,25 +340,14 @@ public class ControllerManager : MonoBehaviour
         }
     }
 
-    private void ResetSpeed()
-    {
-        _speed = 0.0f;
-        _animationBlend = 0.0f;
-
-        _animator.SetFloat(_animIDSpeed, _animationBlend);
-        _animator.SetFloat(_animIDMotionSpeed, 0.0f);
-    }
-
     public void LockMovement()
     {
         _canMove = false;
-        ResetSpeed();
     }
 
     public void UnlockMovement()
     {
         _canMove = true;
-        _controller.Move(Vector3.zero);
     }
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)

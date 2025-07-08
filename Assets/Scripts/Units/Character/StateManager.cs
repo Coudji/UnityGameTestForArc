@@ -1,19 +1,22 @@
 using System.Collections.Generic;
+using FishNet.Object;
 using UnityEngine;
 
-public class CharacterStateManager : BaseCharacterManager
+public class CharacterStateManager : NetworkBehaviour
 {
     private Dictionary<CharacterStateName, ICharacterState> _states;
     private ICharacterState _currentState;
 
-    public override void Init(CharacterManager character)
+    private MovementController _movementController;
+
+    private void Awake()
     {
-        base.Init(character);
+        _movementController = GetComponent<MovementController>();
 
         _states = new Dictionary<CharacterStateName, ICharacterState>
         {
-            { CharacterStateName.Idle, new IdleState(character, this) },
-            { CharacterStateName.Attack, new AttackState(character, this) },
+            { CharacterStateName.Idle, new IdleState(this) },
+            { CharacterStateName.Attack, new AttackState(_movementController, this) },
         };
         SwitchTo(CharacterStateName.Idle);
     }
@@ -33,6 +36,9 @@ public class CharacterStateManager : BaseCharacterManager
 
     public void AnimationHasStarted(string animationName)
     {
+        if (!IsOwner || !IsServerInitialized)
+            return;
+
         switch (animationName)
         {
             case AnimationNames.Attack:
@@ -46,6 +52,9 @@ public class CharacterStateManager : BaseCharacterManager
 
     public void AnimationHasEnded(string animationName)
     {
+        if (!IsOwner || !IsServerInitialized)
+            return;
+
         switch (animationName)
         {
             case AnimationNames.Attack:

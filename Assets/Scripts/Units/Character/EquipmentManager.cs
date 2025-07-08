@@ -1,7 +1,7 @@
 using FishNet.Object;
 using UnityEngine;
 
-public class EquipmentManager : BaseCharacterManager
+public class EquipmentManager : NetworkBehaviour
 {
     [Header("Sockets")]
     public Transform RightHandSocket;
@@ -44,13 +44,13 @@ public class EquipmentManager : BaseCharacterManager
         {
             GameObject weapon = Instantiate(item.WorldModelPrefab, RightHandSocket);
             Spawn(weapon);
-            SetWeaponVisualObserversRpc(weapon);
+            ObserversSetWeaponVisual(weapon);
             _currentWeapon = weapon;
         }
     }
 
     [ObserversRpc]
-    private void SetWeaponVisualObserversRpc(GameObject weapon)
+    private void ObserversSetWeaponVisual(GameObject weapon)
     {
         weapon.transform.SetPositionAndRotation(RightHandSocket.position, RightHandSocket.rotation);
         weapon.transform.parent = RightHandSocket.transform;
