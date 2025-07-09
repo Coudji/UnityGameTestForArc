@@ -1,4 +1,5 @@
 using FishNet.Object;
+using UnityEngine;
 
 public class HUDController : NetworkBehaviour
 {
@@ -12,6 +13,14 @@ public class HUDController : NetworkBehaviour
             return;
 
         _hud = HUDManager.Instance;
+
+        if (_hud == null)
+        {
+            Debug.LogError(
+                "HUDManager instance is not set. Make sure it is initialized before using HUDController."
+            );
+            return;
+        }
 
         _hud.Show();
         _hud.UpdateHealthBar(1.0f);

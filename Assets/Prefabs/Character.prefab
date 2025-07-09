@@ -707,8 +707,10 @@ MonoBehaviour:
   - {fileID: 7480082392492220350}
   - {fileID: 3495181259461046583}
   - {fileID: 2746860234873804786}
+  - {fileID: 2384870540725889481}
   InitializedParentNetworkBehaviour: {fileID: 0}
-  InitializedNestedNetworkObjects: []
+  InitializedNestedNetworkObjects:
+  - {fileID: 7494822879642440398}
   RuntimeParentNetworkBehaviour: {fileID: 0}
   RuntimeChildNetworkBehaviours: []
   _isNetworked: 1
@@ -731,7 +733,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 4
+  <PrefabId>k__BackingField: 5
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 9038739509120458767
   <SceneId>k__BackingField: 0
@@ -778,7 +780,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 6648559772698203526}
   _networkObjectCache: {fileID: 6648559772698203526}
   _componentConfiguration: 0
-  _synchronizeParent: 0
+  _synchronizeParent: 1
   _packing:
     Position: 1
     Rotation: 1
@@ -1399,10 +1401,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2687468946487378686}
+  - component: {fileID: 7494822879642440398}
+  - component: {fileID: -5556035650179380356}
   m_Layer: 7
   m_Name: Right_Hand_Socket
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1421,6 +1425,74 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1412017758448995568}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &7494822879642440398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2809308906440850290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsNested>k__BackingField: 1
+  WasActiveDuringEdit: 1
+  WasActiveDuringEdit_Set1: 1
+  <ComponentIndex>k__BackingField: 1
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours:
+  - {fileID: -5556035650179380356}
+  InitializedParentNetworkBehaviour: {fileID: 2384870540725889481}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
+  _isNetworked: 1
+  _isSpawnable: 0
+  _isGlobal: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
+  _defaultDespawnType: 0
+  NetworkObserver: {fileID: 0}
+  _enablePrediction: 0
+  _predictionType: 0
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 65535
+  <SpawnableCollectionId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 0
+  <SceneId>k__BackingField: 0
+  SerializedTransformProperties:
+    Position: {x: 0.02, y: -0.08, z: 0}
+    Rotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+    Scale: {x: 1, y: 1, z: 1}
+    IsValid: 1
+--- !u!114 &-5556035650179380356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2809308906440850290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 7494822879642440398}
+  _networkObjectCache: {fileID: 7494822879642440398}
 --- !u!1 &2824823390548695653
 GameObject:
   m_ObjectHideFlags: 0
@@ -3055,7 +3127,9 @@ MonoBehaviour:
   _componentIndexCache: 9
   _addedNetworkObject: {fileID: 6648559772698203526}
   _networkObjectCache: {fileID: 6648559772698203526}
-  RightHandSocket: {fileID: 2687468946487378686}
+  _rightHandSocket:
+    Transform: {fileID: 2687468946487378686}
+    NetworkObject: {fileID: 7494822879642440398}
   LeftHandSocket: {fileID: 0}
   HelmetSocket: {fileID: 0}
 --- !u!1 &6892085013455703712
@@ -3491,6 +3565,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1412017758448995568}
+  - component: {fileID: 2384870540725889481}
   m_Layer: 7
   m_Name: Right_Hand
   m_TagString: Untagged
@@ -3519,6 +3594,21 @@ Transform:
   - {fileID: 2687468946487378686}
   m_Father: {fileID: 3577838239613256442}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2384870540725889481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7753837848711787873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 11
+  _addedNetworkObject: {fileID: 6648559772698203526}
+  _networkObjectCache: {fileID: 6648559772698203526}
 --- !u!1 &7846832814292653916
 GameObject:
   m_ObjectHideFlags: 0

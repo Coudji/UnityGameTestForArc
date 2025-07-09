@@ -1,10 +1,35 @@
+using System.Collections;
 using FishNet.Object;
 using UnityEngine;
 
-public class Test1 : MonoBehaviour
+namespace ParentingProblems
 {
-    private void Awake()
+    public class SpawnAsChild : NetworkBehaviour
     {
-        Debug.Log("Je suis lààààààààààààà");
+        // An empty prefab with only a NetworkObject.
+        [SerializeField]
+        NetworkObject prefabWithNOB;
+
+        // A prefab with only a NetworkObject and NetworkTransform set to "SyncParents"
+        [SerializeField]
+        NetworkObject prefabWithNT;
+
+        public override void OnStartServer()
+        {
+            StartCoroutine(nameof(SpawnChildren));
+        }
+
+        IEnumerator SpawnChildren()
+        {
+            yield return new WaitUntil(() => this.IsSpawned);
+            SpawnAndParentObjWithNT();
+        }
+
+        private void SpawnAndParentObjWithNT()
+        {
+            var obj = Instantiate(prefabWithNT);
+            Spawn(obj);
+            obj.SetParent(this.GetComponent<NetworkObject>());
+        }
     }
 }

@@ -17,5 +17,6 @@ MonoBehaviour:
   DisplayName: "\xC9p\xE9e"
   Description: Pierre ciseau
   Category: 1
+  SubCategory: 0
   MaxStack: 1
-  WorldModelPrefab: {fileID: 5538370643001025711, guid: f2fc3e627c69ede4dbafeee90e88413a, type: 3}
+  WorldModelPrefab: {fileID: -2809766472517095083, guid: f2fc3e627c69ede4dbafeee90e88413a, type: 3}

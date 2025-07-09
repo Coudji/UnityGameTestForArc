@@ -1,15 +1,23 @@
 using FishNet.Object;
 using UnityEngine;
 
+[System.Serializable]
+public class NetworkSocket
+{
+    public Transform Transform;
+    public NetworkObject NetworkObject;
+}
+
 public class EquipmentManager : NetworkBehaviour
 {
     [Header("Sockets")]
-    public Transform RightHandSocket;
+    [SerializeField]
+    private NetworkSocket _rightHandSocket;
     public Transform LeftHandSocket;
     public Transform HelmetSocket;
 
     [Header("Current Equipment")]
-    private GameObject _currentWeapon;
+    private NetworkObject _currentWeapon;
     private GameObject _currentHelmet;
 
     public void OnEnable()
@@ -27,33 +35,33 @@ public class EquipmentManager : NetworkBehaviour
         switch (item.SubCategory)
         {
             case ItemSubCategory.Weapon:
-                EquipWeaponServerRpc(item.Id);
+                ServerEquipWeapon(item.Id);
                 break;
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void EquipWeaponServerRpc(int itemId)
+    [ServerRpc]
+    private void ServerEquipWeapon(int itemId)
     {
         if (_currentWeapon != null)
+        {
             Despawn(_currentWeapon, DespawnType.Destroy);
+            _currentWeapon = null;
+        }
 
         Item item = ItemManager.GetItem(itemId);
 
-        if (item.WorldModelPrefab != null)
+        if (item == null || item.WorldModelPrefab == null)
         {
-            GameObject weapon = Instantiate(item.WorldModelPrefab, RightHandSocket);
-            Spawn(weapon);
-            ObserversSetWeaponVisual(weapon);
-            _currentWeapon = weapon;
+            Debug.LogError($"Item with ID {itemId} not found or has no world model prefab.");
+            return;
         }
-    }
 
-    [ObserversRpc]
-    private void ObserversSetWeaponVisual(GameObject weapon)
-    {
-        weapon.transform.SetPositionAndRotation(RightHandSocket.position, RightHandSocket.rotation);
-        weapon.transform.parent = RightHandSocket.transform;
+        NetworkObject weaponNob = Instantiate(item.WorldModelPrefab, _rightHandSocket.Transform);
+        weaponNob.SetParent(_rightHandSocket.NetworkObject);
+        Spawn(weaponNob);
+
+        _currentWeapon = weaponNob;
     }
 
     public bool HasWeapon()

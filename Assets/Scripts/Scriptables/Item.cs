@@ -1,3 +1,4 @@
+using FishNet.Object;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Item", menuName = "Item")]
@@ -21,5 +22,5 @@ public class Item : ScriptableObject
     public int MaxStack = 1;
 
     [Header("World Representation")]
-    public GameObject WorldModelPrefab;
+    public NetworkObject WorldModelPrefab;
 }
