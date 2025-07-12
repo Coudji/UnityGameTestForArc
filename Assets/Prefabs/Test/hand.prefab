@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5684024558220644990}
   - component: {fileID: 168428783410324667}
   - component: {fileID: 5660043237450202523}
+  - component: {fileID: 8897304340854996483}
   m_Layer: 0
   m_Name: hand
   m_TagString: Untagged
@@ -52,7 +53,7 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
-  - {fileID: 5660043237450202523}
+  - {fileID: 8897304340854996483}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -77,7 +78,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 17
+  <PrefabId>k__BackingField: 16
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 16127962021973700218
   <SceneId>k__BackingField: 0
@@ -98,8 +99,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b5fd813b9992fc44a8487fe0e2a2225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8897304340854996483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5022950723027837796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 168428783410324667}
   _networkObjectCache: {fileID: 168428783410324667}
-  prefabWithNOB: {fileID: 8598259858517101801, guid: d87da9c9f43cc4e489c90ff938d4b7c5, type: 3}
-  prefabWithNT: {fileID: 7386838209184861175, guid: 8220b8c81427e8d4dbb9af0983fa2796, type: 3}

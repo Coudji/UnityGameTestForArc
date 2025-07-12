@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class OwnerComponents : NetworkBehaviour
 {
     private CharacterStateManager _stateManager;
+    private CharacterStamina _stamina;
 
     [Header("Containers")]
     [SerializeField]
@@ -22,12 +23,14 @@ public class OwnerComponents : NetworkBehaviour
     private void Awake()
     {
         _stateManager = GetComponent<CharacterStateManager>();
+        _stamina = GetComponent<CharacterStamina>();
     }
 
     public override void OnStartServer()
     {
         base.OnStartServer();
         _stateManager.enabled = true;
+        _stamina.enabled = true;
     }
 
     public override void OnStartClient()
@@ -37,6 +40,7 @@ public class OwnerComponents : NetworkBehaviour
         if (IsOwner)
         {
             _stateManager.enabled = true;
+            _stamina.enabled = true;
 
             GetComponent<CharacterController>().enabled = true;
             GetComponent<PlayerInput>().enabled = true;

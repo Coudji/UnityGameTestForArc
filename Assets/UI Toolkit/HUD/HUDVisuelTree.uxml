@@ -3,13 +3,14 @@
     <ui:VisualElement name="HudContainer" class="hud-container">
         <ui:VisualElement name="BarContainer" class="bar-container">
             <ui:VisualElement name="HealthBarContainer" class="health-bar-container">
-                <ui:VisualElement name="HealthBar" class="health-bar" style="flex-grow: 1;" />
+                <ui:VisualElement name="HealthBar" class="health-bar" />
             </ui:VisualElement>
             <ui:VisualElement name="ManaBarContainer" class="mana-bar-container">
-                <ui:VisualElement name="ManaBar" class="mana-bar" style="flex-grow: 1;" />
+                <ui:VisualElement name="ManaBar" class="mana-bar" />
             </ui:VisualElement>
             <ui:VisualElement name="StaminaBarContainer" class="stamina-bar-container">
-                <ui:VisualElement name="StaminaBar" class="stamina-bar" style="flex-grow: 1;" />
+                <ui:VisualElement name="StaminaBar" class="stamina-bar" />
+                <ui:VisualElement name="StaminaBarResidual" class="stamina-bar-residual" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

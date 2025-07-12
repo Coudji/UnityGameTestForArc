@@ -4,6 +4,7 @@ public static class UIElementNames
     public const string HealthBar = "HealthBar";
     public const string ManaBar = "ManaBar";
     public const string StaminaBar = "StaminaBar";
+    public const string StaminaBarResidual = "StaminaBarResidual";
     public const string InventoryGrid = "InventoryGrid";
     public const string InventorySlot = "InventorySlot";
     public const string SlotIcon = "SlotIcon";

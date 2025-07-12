@@ -1,35 +1,31 @@
 using System.Collections;
-using FishNet.Object;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-namespace ParentingProblems
+public class Test1 : MonoBehaviour
 {
-    public class SpawnAsChild : NetworkBehaviour
+    private UIDocument _hud;
+    private int _counter = 0;
+
+    private void Awake()
     {
-        // An empty prefab with only a NetworkObject.
-        [SerializeField]
-        NetworkObject prefabWithNOB;
+        Debug.Log("Test1 Awake");
+    }
 
-        // A prefab with only a NetworkObject and NetworkTransform set to "SyncParents"
-        [SerializeField]
-        NetworkObject prefabWithNT;
+    private void Start()
+    {
+        Debug.Log("Test1 Start");
+        _hud = GetComponent<UIDocument>();
+        Debug.Log(_hud);
+        StartCoroutine(Test());
+    }
 
-        public override void OnStartServer()
+    private IEnumerator Test()
+    {
+        while (true)
         {
-            StartCoroutine(nameof(SpawnChildren));
-        }
-
-        IEnumerator SpawnChildren()
-        {
-            yield return new WaitUntil(() => this.IsSpawned);
-            SpawnAndParentObjWithNT();
-        }
-
-        private void SpawnAndParentObjWithNT()
-        {
-            var obj = Instantiate(prefabWithNT);
-            Spawn(obj);
-            obj.SetParent(this.GetComponent<NetworkObject>());
+            Debug.Log(_counter++ + "" + (_hud.rootVisualElement));
+            yield return new WaitForSeconds(1f);
         }
     }
 }

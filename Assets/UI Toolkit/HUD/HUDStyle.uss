@@ -27,19 +27,33 @@
 
 .stamina-bar-container {
     width: 320px;
+    flex-direction: row;
 }
 
 .health-bar {
     width: 80%;
     background-color: red;
+    flex-grow: 1;
 }
 
 .mana-bar {
     width: 20%;
     background-color: blue;
+    flex-grow: 1;
 }
 
 .stamina-bar {
-    width: 40%;
+    flex-basis: 40%;
+    flex-grow: 0;
+    flex-shrink: 0;
     background-color: green;
+    transition-property: flex-basis;
+    transition-duration: .3s;
+}
+
+.stamina-bar-residual {
+    flex-basis: 0%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    background-color: purple;
 }

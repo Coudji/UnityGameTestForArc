@@ -1,35 +1,68 @@
-using FishNet.Object;
+using FishNet.Managing;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class HUDController : NetworkBehaviour
+public class HUDController : MonoBehaviour
 {
-    private HUDManager _hud;
+    private UIDocument _hudDocument;
 
-    public override void OnStartClient()
+    private VisualElement _root;
+    private VisualElement _hpBar;
+    private VisualElement _staminaBar;
+
+    private void Start()
     {
-        base.OnStartClient();
+        _hudDocument = GetComponent<UIDocument>();
 
-        if (!IsOwner)
-            return;
-
-        _hud = HUDManager.Instance;
-
-        if (_hud == null)
-        {
-            Debug.LogError(
-                "HUDManager instance is not set. Make sure it is initialized before using HUDController."
-            );
-            return;
-        }
-
-        _hud.Show();
-        _hud.UpdateHealthBar(1.0f);
-
-        // _health.OnHealthChanged += UpdateHealthHUD;
+        _root = _hudDocument.rootVisualElement;
+        _hpBar = _root.Q<VisualElement>(UIElementNames.HealthBar);
+        _staminaBar = _root.Q<VisualElement>(UIElementNames.StaminaBar);
     }
 
-    private void UpdateHealthHUD(int current, int max)
+    private void OnEnable()
     {
-        _hud.UpdateHealthBar(current / max);
+        Debug.Log("HUDController enabled");
+        CharacterEvents.OnStaminaUpdated += UpdateStaminaBar;
+    }
+
+    private void OnDisable()
+    {
+        CharacterEvents.OnStaminaUpdated -= UpdateStaminaBar;
+    }
+
+    public void Show()
+    {
+        if (_root != null)
+        {
+            _root.style.display = DisplayStyle.Flex;
+        }
+    }
+
+    public void Hide()
+    {
+        if (_root != null)
+        {
+            _root.style.display = DisplayStyle.None;
+        }
+    }
+
+    public void UpdateHealthBar(float healthRatio)
+    {
+        UpdateBar(_hpBar, healthRatio);
+    }
+
+    public void UpdateStaminaBar(float staminaRatio)
+    {
+        UpdateBar(_staminaBar, staminaRatio);
+    }
+
+    public void UpdateBar(VisualElement bar, float ratio)
+    {
+        if (bar != null)
+        {
+            bar.style.flexBasis = new StyleLength(
+                new Length(Mathf.Max(0, ratio) * 100, LengthUnit.Percent)
+            );
+        }
     }
 }
