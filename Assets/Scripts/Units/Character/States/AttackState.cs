@@ -1,28 +1,27 @@
-using UnityEngine;
-
 public class AttackState : ICharacterState
 {
-    private readonly CharacterStateManager _stateManager;
+    private readonly CharacterState _characterState;
     private readonly MovementController _movementController;
 
     public bool CanMove => false;
     public bool CanAttack => false;
 
-    public AttackState(MovementController movementController, CharacterStateManager stateManager)
+    public AttackState(MovementController movementController, CharacterState characterState)
     {
         _movementController = movementController;
-        _stateManager = stateManager;
+        _characterState = characterState;
     }
 
     public void Enter()
     {
-        _movementController.LockMovement();
+        // _movementController.LockMovement();
+        CharacterEvents.RaiseActionPerformed(20);
     }
 
     public void Update() { }
 
     public void Exit()
     {
-        _movementController.UnlockMovement();
+        // _movementController.UnlockMovement();
     }
 }

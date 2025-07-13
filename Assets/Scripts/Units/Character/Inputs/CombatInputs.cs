@@ -3,10 +3,15 @@ using UnityEngine.InputSystem;
 
 public class CombatInputs : MonoBehaviour
 {
-    public AttackManager AttackManager;
+    private CharacterAttack _characterAttack;
+
+    private void Awake()
+    {
+        _characterAttack = GetComponent<CharacterAttack>();
+    }
 
     public void OnAttack(InputValue value)
     {
-        AttackManager.ServerPerformAttack();
+        _characterAttack.ServerPerformAttack();
     }
 }

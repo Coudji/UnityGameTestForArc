@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class IdleState : ICharacterState
 {
-    private readonly CharacterStateManager _stateManager;
+    private readonly CharacterState _characterState;
 
     public bool CanMove => true;
     public bool CanAttack => true;
 
-    public IdleState(CharacterStateManager stateManager)
+    public IdleState(CharacterState characterState)
     {
-        _stateManager = stateManager;
+        _characterState = characterState;
     }
 
     public void Enter() { }

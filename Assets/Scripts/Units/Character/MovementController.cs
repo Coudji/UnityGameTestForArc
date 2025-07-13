@@ -1,7 +1,9 @@
+using FishNet.Connection;
+using FishNet.Object;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class MovementController : MonoBehaviour
+public class MovementController : NetworkBehaviour
 {
     [Header("Player")]
     [Tooltip("Move speed of the character in m/s")]
@@ -358,24 +360,16 @@ public class MovementController : MonoBehaviour
         }
     }
 
-    public void LockMovement()
+    [TargetRpc]
+    public void TargetCanMoveChanged(NetworkConnection conn, bool canMove)
     {
-        CanMove = false;
+        CanMove = canMove;
     }
 
-    public void UnlockMovement()
+    [TargetRpc]
+    public void TargetCanSprintChanged(NetworkConnection conn, bool canSprint)
     {
-        CanMove = true;
-    }
-
-    public void LockSprint()
-    {
-        CanSprint = false;
-    }
-
-    public void UnlockSprint()
-    {
-        CanSprint = true;
+        CanSprint = canSprint;
     }
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
@@ -408,7 +402,7 @@ public class MovementController : MonoBehaviour
         );
     }
 
-    private void OnFootstep(AnimationEvent animationEvent)
+    public void OnFootstep(AnimationEvent animationEvent)
     {
         if (animationEvent.animatorClipInfo.weight > 0.5f)
         {
@@ -424,7 +418,7 @@ public class MovementController : MonoBehaviour
         }
     }
 
-    private void OnLand(AnimationEvent animationEvent)
+    public void OnLand(AnimationEvent animationEvent)
     {
         if (animationEvent.animatorClipInfo.weight > 0.5f)
         {

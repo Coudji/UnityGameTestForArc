@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class CharacterStamina : NetworkBehaviour
 {
+    private MovementController _movementController;
+
     [Header("Stamina")]
     [SerializeField]
     private float _maxStamina;
@@ -28,8 +30,9 @@ public class CharacterStamina : NetworkBehaviour
     public event System.Action<float> OnStaminaUpdated;
 
     private Coroutine _staminaCoroutine;
-    private bool _isSprinting;
-    private MovementController _movementController;
+
+    private bool _isSprinting = false;
+    private bool _isStaminaBlocked = false;
 
     private void Awake()
     {
@@ -39,6 +42,10 @@ public class CharacterStamina : NetworkBehaviour
     public override void OnStartServer()
     {
         currentStamina.Value = _maxStamina;
+
+        currentStamina.OnChange += HandleStaminaChanged;
+        CharacterEvents.OnActionPerformed += HandleActionStaminaCost;
+        CharacterEvents.OnActionEnded += UnlockStamina;
     }
 
     public override void OnStartClient()
@@ -51,7 +58,6 @@ public class CharacterStamina : NetworkBehaviour
         currentStamina.OnChange += HandleStaminaChanged;
         CharacterEvents.OnSprintChanged += ServerHandleSprintChanged;
 
-        // Force UI update on join
         HandleStaminaChanged(currentStamina.Value, currentStamina.Value, false);
     }
 
@@ -69,7 +75,14 @@ public class CharacterStamina : NetworkBehaviour
     public override void OnStopServer()
     {
         if (_staminaCoroutine != null)
+        {
             StopCoroutine(_staminaCoroutine);
+            _staminaCoroutine = null;
+        }
+
+        currentStamina.OnChange -= HandleStaminaChanged;
+        CharacterEvents.OnActionPerformed -= HandleActionStaminaCost;
+        CharacterEvents.OnActionEnded -= UnlockStamina;
     }
 
     [ServerRpc]
@@ -80,41 +93,63 @@ public class CharacterStamina : NetworkBehaviour
 
         _isSprinting = isSprinting;
 
+        RestartStaminaRoutine();
+    }
+
+    private void RestartStaminaRoutine()
+    {
         if (_staminaCoroutine != null)
             StopCoroutine(_staminaCoroutine);
 
-        _staminaCoroutine = StartCoroutine(isSprinting ? UseStamina() : RegenerateStamina());
-    }
-
-    [TargetRpc]
-    private void TargetLockSprint(NetworkConnection conn)
-    {
-        _movementController.LockSprint();
-    }
-
-    [TargetRpc]
-    private void TargetUnlockSprint(NetworkConnection conn)
-    {
-        _movementController.UnlockSprint();
+        _staminaCoroutine = StartCoroutine(_isSprinting ? UseStamina() : RegenerateStamina());
     }
 
     private void HandleStaminaChanged(float oldVal, float newVal, bool asServer)
     {
-        float ratio = Mathf.Clamp01(newVal / _maxStamina);
-        CharacterEvents.RaiseStaminaUpdated(ratio);
+        if (asServer)
+        {
+            bool wasExhausted = oldVal <= 0f;
+            bool isExhausted = newVal <= 0f;
+
+            if (wasExhausted != isExhausted)
+            {
+                bool canAct = !isExhausted;
+
+                _movementController.TargetCanSprintChanged(Owner, canAct);
+                CharacterEvents.RaiseCanAttackChanged(canAct);
+            }
+        }
+        else
+        {
+            float ratio = Mathf.Clamp01(newVal / _maxStamina);
+            CharacterEvents.RaiseStaminaUpdated(ratio);
+        }
+    }
+
+    private void HandleActionStaminaCost(int staminaCost)
+    {
+        currentStamina.Value -= staminaCost;
+        LockStamina();
+        RestartStaminaRoutine();
+    }
+
+    private void LockStamina()
+    {
+        _isStaminaBlocked = true;
+    }
+
+    private void UnlockStamina()
+    {
+        _isStaminaBlocked = false;
     }
 
     private IEnumerator UseStamina()
     {
+        float drainAmount = _drainPerSecond * _drainPeriod;
+
         while (true)
         {
-            currentStamina.Value = Mathf.Max(
-                0f,
-                currentStamina.Value - _drainPerSecond * _drainPeriod
-            );
-
-            if (currentStamina.Value <= 0f)
-                TargetLockSprint(Owner);
+            currentStamina.Value = Mathf.Max(0f, currentStamina.Value - drainAmount);
 
             yield return new WaitForSeconds(_drainPeriod);
         }
@@ -122,17 +157,16 @@ public class CharacterStamina : NetworkBehaviour
 
     private IEnumerator RegenerateStamina()
     {
+        float regenAmount = _regenPerSecond * _regenPeriod;
+
         while (true)
         {
+            while (_isStaminaBlocked)
+                yield return null;
+
             yield return new WaitForSeconds(_regenPeriod);
 
-            currentStamina.Value = Mathf.Min(
-                _maxStamina,
-                currentStamina.Value + _regenPerSecond * _regenPeriod
-            );
-
-            if (currentStamina.Value > 0f)
-                TargetUnlockSprint(Owner);
+            currentStamina.Value = Mathf.Min(_maxStamina, currentStamina.Value + regenAmount);
         }
     }
 }

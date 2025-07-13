@@ -4,8 +4,10 @@ using UnityEngine.InputSystem;
 
 public class OwnerComponents : NetworkBehaviour
 {
-    private CharacterStateManager _stateManager;
+    private CharacterState _characterState;
     private CharacterStamina _stamina;
+    private CharacterAttack _attack;
+    private CharacterEquipment _equipment;
 
     [Header("Containers")]
     [SerializeField]
@@ -17,20 +19,21 @@ public class OwnerComponents : NetworkBehaviour
     [SerializeField]
     private GameObject Menus;
 
-    [SerializeField]
-    private GameObject Managers;
-
     private void Awake()
     {
-        _stateManager = GetComponent<CharacterStateManager>();
+        _characterState = GetComponent<CharacterState>();
         _stamina = GetComponent<CharacterStamina>();
+        _attack = GetComponent<CharacterAttack>();
+        _equipment = GetComponent<CharacterEquipment>();
     }
 
     public override void OnStartServer()
     {
         base.OnStartServer();
-        _stateManager.enabled = true;
+        _characterState.enabled = true;
         _stamina.enabled = true;
+        _attack.enabled = true;
+        _equipment.enabled = true;
     }
 
     public override void OnStartClient()
@@ -39,8 +42,10 @@ public class OwnerComponents : NetworkBehaviour
 
         if (IsOwner)
         {
-            _stateManager.enabled = true;
+            _characterState.enabled = true;
             _stamina.enabled = true;
+            _attack.enabled = true;
+            _equipment.enabled = true;
 
             GetComponent<CharacterController>().enabled = true;
             GetComponent<PlayerInput>().enabled = true;
@@ -52,7 +57,6 @@ public class OwnerComponents : NetworkBehaviour
             Cameras.SetActive(true);
             UserInterfaces.SetActive(true);
             Menus.SetActive(true);
-            Managers.SetActive(true);
         }
     }
 }

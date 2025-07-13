@@ -8,7 +8,7 @@ public class NetworkSocket
     public NetworkObject NetworkObject;
 }
 
-public class EquipmentManager : NetworkBehaviour
+public class CharacterEquipment : NetworkBehaviour
 {
     [Header("Sockets")]
     [SerializeField]
