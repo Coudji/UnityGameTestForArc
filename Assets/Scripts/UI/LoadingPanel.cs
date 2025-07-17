@@ -1,17 +1,20 @@
-public class UILoadingPanel : StaticInstance<UILoadingPanel>
+namespace Arc.UI
 {
-    public void Start()
+    public class UILoadingPanel : StaticInstance<UILoadingPanel>
     {
-        Hide();
-    }
-
-    public void Show()
-    {
-        gameObject.SetActive(true);
-    }
-
-    public void Hide()
-    {
-        gameObject.SetActive(false);
+        public void Start()
+        {
+            Hide();
+        }
+    
+        public void Show()
+        {
+            gameObject.SetActive(true);
+        }
+    
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

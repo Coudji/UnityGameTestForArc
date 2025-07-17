@@ -2,82 +2,85 @@ using System.Data;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class InventoryController : BaseMenuController
+namespace Arc.UI
 {
-    [SerializeField]
-    private InventoryConfig _config;
-
-    private VisualElement _inventoryGrid;
-
-    protected override void Awake()
+    public class InventoryController : BaseMenuController
     {
-        base.Awake();
-        InitializeInventory();
-    }
-
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        GameUIEvents.OnInventoryChanged += RefreshUI;
-    }
-
-    protected override void OnDisable()
-    {
-        base.OnDisable();
-        GameUIEvents.OnInventoryChanged += RefreshUI;
-    }
-
-    private void InitializeInventory()
-    {
-        _inventoryGrid = _uiDocument.rootVisualElement.Q<VisualElement>(
-            UIElementNames.InventoryGrid
-        );
-
-        if (_inventoryGrid == null)
+        [SerializeField]
+        private InventoryConfig _config;
+    
+        private VisualElement _inventoryGrid;
+    
+        protected override void Awake()
         {
-            Debug.LogError("Inventory grid not found in the UI document.");
-            return;
+            base.Awake();
+            InitializeInventory();
         }
-
-        _inventoryGrid.Clear();
-        _inventoryGrid.style.width = (int)(
-            (_config.columns + 0.1) * (_config.cellSize + _config.cellMargin * 2)
-        );
-
-        for (int i = 0; i < _config.MaxSlots; i++)
+    
+        protected override void OnEnable()
         {
-            VisualSlot visualSlot = new(_config.cellSize, _config.cellMargin)
-            {
-                name = $"{UIElementNames.InventorySlot}_{i}",
-            };
-
-            _inventoryGrid.Add(visualSlot);
+            base.OnEnable();
+            GameUIEvents.OnInventoryChanged += RefreshUI;
         }
-    }
-
-    private void RefreshUI(InventorySystem inventory)
-    {
-        var slots = inventory.Slots;
-        int slotCount = Mathf.Min(_config.MaxSlots, slots.Count, _inventoryGrid.childCount);
-
-        for (int i = 0; i < slotCount; i++)
+    
+        protected override void OnDisable()
         {
-            if (_inventoryGrid[i] is not VisualSlot visualSlot)
+            base.OnDisable();
+            GameUIEvents.OnInventoryChanged -= RefreshUI;
+        }
+    
+        private void InitializeInventory()
+        {
+            _inventoryGrid = _uiDocument.rootVisualElement.Q<VisualElement>(
+                UIElementNames.InventoryGrid
+            );
+    
+            if (_inventoryGrid == null)
             {
-                Debug.LogWarning($"UI Slot {i} is not a VisualSlot.");
-                continue;
+                Debug.LogError("Inventory grid not found in the UI document.");
+                return;
             }
-
-            InventoryItemSlot slot = slots[i];
-            Item item = slot.Item;
-
-            if (slot.IsEmpty || item == null || item.Icon == null)
+    
+            _inventoryGrid.Clear();
+            _inventoryGrid.style.width = (int)(
+                (_config.columns + 0.1) * (_config.cellSize + _config.cellMargin * 2)
+            );
+    
+            for (int i = 0; i < _config.MaxSlots; i++)
             {
-                visualSlot.ToEmpty();
+                VisualSlot visualSlot = new(_config.cellSize, _config.cellMargin)
+                {
+                    name = $"{UIElementNames.InventorySlot}_{i}",
+                };
+    
+                _inventoryGrid.Add(visualSlot);
             }
-            else
+        }
+    
+        private void RefreshUI(InventorySystem inventory)
+        {
+            var slots = inventory.Slots;
+            int slotCount = Mathf.Min(_config.MaxSlots, slots.Count, _inventoryGrid.childCount);
+    
+            for (int i = 0; i < slotCount; i++)
             {
-                visualSlot.SetItem(item, slot.Quantity);
+                if (_inventoryGrid[i] is not VisualSlot visualSlot)
+                {
+                    Debug.LogWarning($"UI Slot {i} is not a VisualSlot.");
+                    continue;
+                }
+    
+                InventoryItemSlot slot = slots[i];
+                Item item = slot.Item;
+    
+                if (slot.IsEmpty || item == null || item.Icon == null)
+                {
+                    visualSlot.ToEmpty();
+                }
+                else
+                {
+                    visualSlot.SetItem(item, slot.Quantity);
+                }
             }
         }
     }
