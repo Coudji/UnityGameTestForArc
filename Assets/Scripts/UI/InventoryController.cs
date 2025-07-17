@@ -24,7 +24,7 @@ public class InventoryController : BaseMenuController
     protected override void OnDisable()
     {
         base.OnDisable();
-        GameUIEvents.OnInventoryChanged += RefreshUI;
+        GameUIEvents.OnInventoryChanged -= RefreshUI;
     }
 
     private void InitializeInventory()

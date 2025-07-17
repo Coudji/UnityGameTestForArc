@@ -71,7 +71,7 @@ public class MainMenuController : MonoBehaviour
 
     public void ClearLobbyListContent()
     {
-        foreach (Transform child in LoadGameContent.transform)
+        foreach (Transform child in LobbyListContent.transform)
             Destroy(child.gameObject);
     }
 
