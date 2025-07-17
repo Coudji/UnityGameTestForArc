@@ -15,7 +15,7 @@ public class GameSceneSpawner : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
-        NetworkManager.SceneManager.OnClientPresenceChangeEnd += OnClientReadyInScene;
+        SceneManager.OnClientPresenceChangeEnd += OnClientReadyInScene;
     }
 
     private void OnClientReadyInScene(ClientPresenceChangeEventArgs args)
@@ -37,7 +37,7 @@ public class GameSceneSpawner : NetworkBehaviour
 
     private void OnDestroy()
     {
-        if (NetworkManager != null && NetworkManager.SceneManager != null)
-            NetworkManager.SceneManager.OnClientPresenceChangeEnd -= OnClientReadyInScene;
+        if (SceneManager != null)
+            SceneManager.OnClientPresenceChangeEnd -= OnClientReadyInScene;
     }
 }
