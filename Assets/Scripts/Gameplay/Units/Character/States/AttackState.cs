@@ -1,3 +1,5 @@
+using Arc.Core.Constants;
+
 namespace Arc.Gameplay.Units.Character.States
 {
     public class AttackState : ICharacterState
@@ -17,7 +19,7 @@ namespace Arc.Gameplay.Units.Character.States
         public void Enter()
         {
             // _movementController.LockMovement();
-            CharacterEvents.RaiseActionPerformed(20);
+            CharacterEvents.RaiseActionPerformed(CharacterConstants.AttackStaminaCost);
         }
     
         public void Update() { }

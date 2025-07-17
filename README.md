@@ -24,3 +24,11 @@ Assets
 4. The game relies on FishNet and Steamworks. Ensure these packages are installed through the Package Manager.
 
 Scripts now use the `Arc.*` namespaces. Update any of your own scripts to use these namespaces if you extend the project.
+
+## Unity Notes
+
+After pulling the repository:
+
+1. Open the project with Unity to regenerate `.meta` files for new scripts.
+2. Remove any components referencing the deleted `ServerConnection` script.
+3. Ensure FishNet and Steamworks packages are installed via the Package Manager.

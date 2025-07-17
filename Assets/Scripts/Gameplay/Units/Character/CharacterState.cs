@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using FishNet.Object;
 using UnityEngine;
+using Arc.Core.Constants;
 
 namespace Arc.Gameplay.Units.Character
 {
@@ -27,7 +27,7 @@ namespace Arc.Gameplay.Units.Character
                     CanAttack = false;
                     CanMove = false;
                     _movementController.TargetCanMoveChanged(Owner, false);
-                    CharacterEvents.RaiseActionPerformed(20);
+                    CharacterEvents.RaiseActionPerformed(CharacterConstants.AttackStaminaCost);
                     break;
                 default:
                     Debug.LogWarning($"Unhandled animation start: {animationName}");

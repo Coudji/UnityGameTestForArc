@@ -65,20 +65,6 @@ namespace Arc.Gameplay.Systems
             return quantity;
         }
     
-        // public void RemoveItem(int slotIndex, int quantity)
-        // {
-        //     if (slotIndex < 0 || slotIndex >= _slots.Count)
-        //         return;
-        //     var slot = _slots[slotIndex];
-    
-        //     slot.Quantity -= quantity;
-        //     if (slot.Quantity <= 0)
-        //     {
-        //         slot.Clear();
-        //     }
-    
-        //     OnInventoryChanged?.Invoke();
-        // }
     }
     
     [Serializable]
